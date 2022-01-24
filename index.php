@@ -1,3 +1,10 @@
+<?php include 'connection.php'; ?>
+<?php
+    // CREATE QUERY
+    $query = "SELECT * FROM users ORDER BY id DESC";
+    $users = mysqli_query($connection, $query);
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -34,17 +41,22 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        <?php while($row = mysqli_fetch_assoc($users)): ?>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Gerardo</td>
-                            <td>Schekaibán</td>
-                            <td>gerardo@hotmail.com</td>
-                            <td>6544654612</td>
+                            <th><?php echo $row['id']; ?></th>
+                            <td><?php echo $row['name']; ?></td>
+                            <td><?php echo $row['last_name']; ?></td>
+                            <td><?php echo $row['email']; ?></td>
+                            <td><?php echo $row['phone']; ?></td>
                             <td>
                                 <a href="update.php" class="btn btn-primary">Edit</a>
                                 <a href="delete.php" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
+
+                        <?php endwhile; ?>
+
                     </tbody>
                 </table>
             </div>

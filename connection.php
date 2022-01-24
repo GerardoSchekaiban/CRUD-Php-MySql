@@ -1,7 +1,7 @@
 <?php
 
     //Database connection
-    $conection = mysqli_connect("localhost", "root", "", "crud_php_mysql");
+    $connection = mysqli_connect("localhost", "root", "", "crud_php_mysql");
 
     //Test connection
     if(mysqli_connect_errno()){
