@@ -1,3 +1,39 @@
+<?php 
+    // Include database connection
+    include 'connection.php'; 
+
+    if(isset($_POST['createuser'])){
+        $name = mysqli_real_escape_string($connection, $_POST['name']);
+        $lastname = mysqli_real_escape_string($connection, $_POST['lastname']);
+        $email = mysqli_real_escape_string($connection, $_POST['email']);
+        $phone = mysqli_real_escape_string($connection, $_POST['phone']);
+
+        //Set zone time
+        date_default_timezone_set('America/Mexico_City');
+        $time = date('h:i:s a', time());
+
+        //Validate no empty fields
+        if(!isset($name) || $name == '' || !isset($lastname) || $lastname == '' || !isset($email) || $email == '' || 
+        !isset($phone) || $phone == '' ){
+            echo "Please fill empty fields";
+        }else{
+            $query = "INSERT INTO users (name, last_name, email, phone) VALUES 
+            ('$name','$lastname','$email','$phone')";
+
+            //Validate query executed
+            if(!mysqli_query($connection, $query)){
+                die('Error: ' . mysqli_error($connection));
+                echo "Couldn't create user. Try again!";
+            }else{
+                header('Location: index.php');
+                echo "User created successfully.";
+                exit();
+            }
+        }
+    }
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -22,7 +58,7 @@
 
         <div class="row">
             <div class="col-sm-6 offset-3">
-                <form>
+                <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" name="name" placeholder="Enter your name" aria-describedby="emailHelp">
@@ -43,7 +79,7 @@
                         <input type="number" class="form-control" name="phone" placeholder="Enter your phone">
                     </div>
             
-                    <button type="submit" class="btn btn-success w-100" name="create">Create</button>
+                    <button type="submit" class="btn btn-success w-100" name="createuser">Create</button>
                 </form>
             </div>
         </div>
