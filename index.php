@@ -50,8 +50,8 @@
                             <td><?php echo $row['email']; ?></td>
                             <td><?php echo $row['phone']; ?></td>
                             <td>
-                                <a href="update.php" class="btn btn-primary">Edit</a>
-                                <a href="delete.php" class="btn btn-danger">Delete</a>
+                                <a href="update.php?id=<?php echo $row['id']; ?>" class="btn btn-primary">Edit</a>
+                                <a href="delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
 
