@@ -1,3 +1,35 @@
+<?php 
+    // Include database connection
+    include 'connection.php'; 
+
+    // Get ID from URL
+    $userId = $_GET['id'];
+
+    // Select id in table
+    $query = "SELECT * from users where id='".$userId."'";
+
+    // Execute query
+    $user = mysqli_query($connection, $query) or die (mysqli_error($connection));
+
+    // User data array
+    $row = mysqli_fetch_assoc($user);
+
+    if(isset($_POST['deleteuser'])){
+        
+        $query = "DELETE FROM users WHERE id='$userId'" ;
+        
+        //Validate query executed
+        if(!mysqli_query($connection, $query)){
+            die('Error: ' . mysqli_error($connection));
+            echo "Couldn't edit user. Try again!";
+        }else{
+            header('Location: index.php');
+            echo "User edited successfully.";
+            exit();
+            }
+        }
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -22,28 +54,28 @@
 
         <div class="row">
             <div class="col-sm-6 offset-3">
-                <form>
+                <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Enter your name" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="name" placeholder="Enter your name" value="<?php echo $row['name']; ?>" readonly aria-describedby="emailHelp">
                     </div>
 
                     <div class="mb-3">
                         <label for="lastname" class="form-label">Last name</label>
-                        <input type="text" class="form-control" name="lastname" placeholder="Enter your lastname">
+                        <input type="text" class="form-control" name="lastname" placeholder="Enter your lastname" value="<?php echo $row['last_name']; ?>" readonly>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="Enter your email">
+                        <input type="email" class="form-control" name="email" placeholder="Enter your email" value="<?php echo $row['email']; ?>" readonly>
                     </div>
 
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone</label>
-                        <input type="number" class="form-control" name="phone" placeholder="Enter your phone">
+                        <input type="number" class="form-control" name="phone" placeholder="Enter your phone" value="<?php echo $row['phone']; ?>" readonly>
                     </div>
             
-                    <button type="submit" class="btn btn-danger w-100" name="delete">Delete</button>
+                    <button type="submit" class="btn btn-danger w-100" name="deleteuser">Delete</button>
                 </form>
             </div>
         </div>
