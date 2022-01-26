@@ -27,17 +27,17 @@
         //Validate no empty fields
         if(!isset($name) || $name == '' || !isset($lastname) || $lastname == '' || !isset($email) || $email == '' || 
         !isset($phone) || $phone == '' ){
-            echo "Please fill empty fields";
+            $error = "Empty fields not allowed";
         }else{
             $query = "UPDATE users SET name='$name',last_name='$lastname',email='$email',phone='$phone' WHERE id='$userId'";
 
             //Validate query executed
             if(!mysqli_query($connection, $query)){
                 die('Error: ' . mysqli_error($connection));
-                echo "Couldn't edit user. Try again!";
+                $error = "Couldn't edit user. Try again!";
             }else{
-                header('Location: index.php');
-                echo "User edited successfully.";
+                $message = "User edited successfully.";
+                header('Location: index.php?message='.urlencode($message));
                 exit();
             }
         }
@@ -68,6 +68,13 @@
         </div>
 
         <div class="row">
+            <!--alerts-->
+            <?php if(isset($error)) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="col-sm-6 offset-3">
                 <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>">
                     <div class="mb-3">

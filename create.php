@@ -15,7 +15,7 @@
         //Validate no empty fields
         if(!isset($name) || $name == '' || !isset($lastname) || $lastname == '' || !isset($email) || $email == '' || 
         !isset($phone) || $phone == '' ){
-            echo "Please fill empty fields";
+            $error = "Please fill empty fields";
         }else{
             $query = "INSERT INTO users (name, last_name, email, phone) VALUES 
             ('$name','$lastname','$email','$phone')";
@@ -23,10 +23,10 @@
             //Validate query executed
             if(!mysqli_query($connection, $query)){
                 die('Error: ' . mysqli_error($connection));
-                echo "Couldn't create user. Try again!";
+                $error = "Couldn't create user. Try again!";
             }else{
-                header('Location: index.php');
-                echo "User created successfully.";
+                $message = "User created successfully.";
+                header('Location: index.php?message='.urlencode($message));
                 exit();
             }
         }
@@ -57,26 +57,33 @@
         </div>
 
         <div class="row">
+            <!--alerts-->
+            <?php if(isset($error)) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="col-sm-6 offset-3">
                 <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Enter your name" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" name="name" placeholder="Enter your name" value="<?php if(isset($error)){ echo $name; } ?>" aria-describedby="emailHelp">
                     </div>
 
                     <div class="mb-3">
                         <label for="lastname" class="form-label">Last name</label>
-                        <input type="text" class="form-control" name="lastname" placeholder="Enter your lastname">
+                        <input type="text" class="form-control" name="lastname" placeholder="Enter your lastname" value="<?php if(isset($error)){ echo $lastname; }?>">
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="Enter your email">
+                        <input type="email" class="form-control" name="email" placeholder="Enter your email" value="<?php if(isset($error)){ echo $email; }?>">
                     </div>
 
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone</label>
-                        <input type="number" class="form-control" name="phone" placeholder="Enter your phone">
+                        <input type="number" class="form-control" name="phone" placeholder="Enter your phone" value="<?php if(isset($error)){ echo $phone; } ?>">
                     </div>
             
                     <button type="submit" class="btn btn-success w-100" name="createuser">Create</button>

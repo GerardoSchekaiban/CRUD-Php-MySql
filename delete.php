@@ -23,8 +23,8 @@
             die('Error: ' . mysqli_error($connection));
             echo "Couldn't edit user. Try again!";
         }else{
-            header('Location: index.php');
-            echo "User edited successfully.";
+            $message = "User deleted";
+            header('Location: index.php?message='.urlencode($message));
             exit();
             }
         }

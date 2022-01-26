@@ -21,6 +21,13 @@
     <h1 class="text-center mt-4 mb-4">CRUD PHP MYSQL</h1>
 
     <div class="container">
+        <?php if(isset($_GET['message'])) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?php echo $_GET['message']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
         <div class="row">
             <div class="col-sm-4 offset-8">
                 <a href="create.php" class="btn btn-success w-100">Add User</a>
